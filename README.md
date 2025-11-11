@@ -180,18 +180,6 @@ docker-compose ps
 - Использовать для генерации клиентского кода
 - Просмотреть в Swagger UI
 
-## Структура проекта
-
-```
-.
-├── api_service/          # API Gateway сервис
-│   └── swagger/          # Swagger/OpenAPI спецификация
-├── db_service/           # Сервис работы с БД
-├── kafka_service/        # Сервис обработки Kafka событий
-├── proto/                # Protocol Buffer определения
-└── docker-compose.yaml   # Конфигурация Docker Compose
-```
-
 ## Полезные команды
 
 Проект использует Makefile для упрощения работы. Посмотреть все доступные команды:

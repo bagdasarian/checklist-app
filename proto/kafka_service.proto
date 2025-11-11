@@ -1,0 +1,35 @@
+syntax = "proto3";
+
+package checklist;
+
+option go_package = ".;pb";
+
+import "google/protobuf/timestamp.proto";
+
+// Событие действия пользователя
+message TaskEvent {
+  // Время, когда пользователь отправил запрос
+  google.protobuf.Timestamp timestamp = 1;
+  
+  // Действие пользователя
+  ActionType action = 2;
+  
+  // ID пользователя
+  string user_id = 3;
+  
+  // ID задачи (опционально, для GetTasks может быть пустым)
+  string task_id = 4;
+  
+  // Дополнительная информация о событии
+  string details = 5;
+}
+
+// Тип действия пользователя
+enum ActionType {
+  ACTION_UNKNOWN = 0;
+  ACTION_CREATE_TASK = 1;    // Создание задачи
+  ACTION_DELETE_TASK = 2;    // Удаление задачи
+  ACTION_COMPLETE_TASK = 3;  // Завершение задачи
+  ACTION_GET_TASKS = 4;      // Получение списка задач
+}
+

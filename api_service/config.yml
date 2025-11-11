@@ -1,0 +1,20 @@
+jwt:
+  secret_key: "your-secret-key-change-in-production"
+  token_duration: 3600  # в секундах (1 час)
+
+db_service:
+  host: "db_service"
+  port: "50051"
+
+grpc:
+  port: "50052"
+
+http:
+  port: "8080"
+
+kafka:
+  brokers:
+    - "kafka:9092"
+  topic: "task-events"
+  enabled: true
+

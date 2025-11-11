@@ -1,0 +1,16 @@
+db:
+  host: "postgres"
+  port: "5432"
+  user: "docker"
+  password: "docker"
+  name: "test_db"
+
+redis:
+  host: "redis"
+  port: "6379"
+  password: ""
+  db: 0
+  ttl: 300 
+
+grpc:
+  port: "50051"

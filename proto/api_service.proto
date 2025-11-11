@@ -1,0 +1,141 @@
+syntax = "proto3";
+
+package checklist.api;
+
+option go_package = ".;pb";
+
+import "google/api/annotations.proto";
+import "google/protobuf/timestamp.proto";
+
+service TaskService {
+  // Регистрация пользователя
+  rpc RegisterUser(RegisterUserRequest) returns (RegisterUserResponse) {
+    option (google.api.http) = {
+      post: "/v1/auth/register"
+      body: "*"
+    };
+  }
+
+  // Аутентификация пользователя
+  rpc LoginUser(LoginUserRequest) returns (LoginUserResponse) {
+    option (google.api.http) = {
+      post: "/v1/auth/login"
+      body: "*"
+    };
+  }
+
+  // Создание новой задачи
+  rpc CreateTask(CreateTaskRequest) returns (CreateTaskResponse) {
+    option (google.api.http) = {
+      post: "/v1/tasks"
+      body: "*"
+    };
+  }
+
+  // Получение списка задач с фильтрацией и пагинацией
+  rpc GetTasks(GetTasksRequest) returns (GetTasksResponse) {
+    option (google.api.http) = {
+      get: "/v1/tasks"
+    };
+  }
+
+  // Удаление задачи по ID
+  rpc DeleteTask(DeleteTaskRequest) returns (DeleteTaskResponse) {
+    option (google.api.http) = {
+      delete: "/v1/tasks/{id}"
+    };
+  }
+
+  // Отметка задачи как выполненной
+  rpc CompleteTask(CompleteTaskRequest) returns (CompleteTaskResponse) {
+    option (google.api.http) = {
+      put: "/v1/tasks/{id}/complete"
+    };
+  }
+}
+
+// Сообщения для аутентификации
+message RegisterUserRequest {
+  string name = 1;
+  string username = 2;
+  string password = 3;
+}
+
+message LoginUserRequest {
+  string username = 1;
+  string password = 2;
+}
+
+message RegisterUserResponse {
+  string id = 1;
+  string name = 2;
+  string username = 3;
+  google.protobuf.Timestamp created_at = 4;
+}
+
+message LoginUserResponse {
+  bool success = 1;
+  string user_id = 2;
+  string message = 3;
+  string token = 4; // JWT токен для последующих запросов
+}
+
+// Сообщения для задач
+message CreateTaskRequest {
+  string title = 1;
+  string description = 2;
+  // user_id будет автоматически извлекаться из JWT токена
+}
+
+message GetTasksRequest {
+  // user_id будет автоматически извлекаться из JWT токена
+  bool include_completed = 1;
+  int32 limit = 2;
+  int32 offset = 3;
+}
+
+message DeleteTaskRequest { 
+  string id = 1;
+  // user_id будет автоматически извлекаться из JWT токена
+}
+
+message CompleteTaskRequest { 
+  string id = 1;
+  // user_id будет автоматически извлекаться из JWT токена
+}
+
+message CreateTaskResponse {
+  string id = 1;
+  string user_id = 2;
+  string title = 3;
+  string description = 4;
+  bool completed = 5;
+  google.protobuf.Timestamp created_at = 6;
+  google.protobuf.Timestamp completed_at = 7;
+}
+
+message GetTasksResponse {
+  repeated Task tasks = 1;
+  int32 total_count = 2;
+}
+
+message DeleteTaskResponse {
+  bool success = 1;
+  string message = 2;
+}
+
+message CompleteTaskResponse {
+  string id = 1;
+  bool completed = 2;
+  google.protobuf.Timestamp completed_at = 3;
+}
+
+message Task {
+  string id = 1;
+  string user_id = 2;
+  string title = 3;
+  string description = 4;
+  bool completed = 5;
+  google.protobuf.Timestamp created_at = 6;
+  google.protobuf.Timestamp completed_at = 7;
+}

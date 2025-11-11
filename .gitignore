@@ -1,0 +1,8 @@
+.vscode/
+.DS_Store
+.DS_Store?
+postgres_data/
+redis_data/
+kafka_data/
+kafka_logs/
+google/
